@@ -1,30 +1,118 @@
-# Airport API Development
+# Airport Information API
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+A Node.js REST API for retrieving airport information based on IATA codes using TypeORM and SQLite.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/guntreddy-hemanths-projects/v0-airport-api-development)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/lb9h1fii05l)
+## Features
 
-## Overview
+- Get airport information by IATA code
+- Relational database with Airport, City, and Country entities
+- Input validation and error handling
+- CORS support
+- Security headers with Helmet
+- Request logging with Morgan
+- TypeScript support
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+## Installation
 
-## Deployment
+1. Clone the repository
+2. Install dependencies:
+   \`\`\`bash
+   npm install
+   \`\`\`
 
-Your project is live at:
+3. Seed the database:
+   \`\`\`bash
+   npm run seed
+   \`\`\`
 
-**[https://vercel.com/guntreddy-hemanths-projects/v0-airport-api-development](https://vercel.com/guntreddy-hemanths-projects/v0-airport-api-development)**
+4. Start the development server:
+   \`\`\`bash
+   npm run dev
+   \`\`\`
 
-## Build your app
+## API Endpoints
 
-Continue building your app on:
+### GET /api/airport/:iata_code
 
-**[https://v0.dev/chat/projects/lb9h1fii05l](https://v0.dev/chat/projects/lb9h1fii05l)**
+Retrieves detailed information about an airport using the IATA code.
 
-## How It Works
+**Example:**
+\`\`\`
+GET /api/airport/AGR
+\`\`\`
 
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+**Response:**
+\`\`\`json
+{
+  "airport": {
+    "id": 1,
+    "icao_code": "VIAG",
+    "iata_code": "AGR",
+    "name": "Agra Airport / Agra Air Force Station",
+    "type": "medium_airport",
+    "latitude_deg": 27.157683,
+    "longitude_deg": 77.960942,
+    "elevation_ft": 551,
+    "address": {
+      "city": {
+        "id": 1,
+        "name": "Agra",
+        "country_id": 1,
+        "is_active": true,
+        "lat": 27.18,
+        "long": 78.02
+      },
+      "country": {
+        "id": 1,
+        "name": "India",
+        "country_code_two": "IN",
+        "country_code_three": "IND",
+        "mobile_code": 91,
+        "continent_id": 1
+      }
+    }
+  }
+}
+\`\`\`
+
+### POST /api/seed
+
+Seeds the database with sample data.
+
+### GET /health
+
+Health check endpoint.
+
+## Scripts
+
+- `npm run dev` - Start development server with hot reload
+- `npm run build` - Build the TypeScript code
+- `npm start` - Start production server
+- `npm run seed` - Seed database with sample data
+
+## Docker
+
+Build and run with Docker:
+
+\`\`\`bash
+docker build -t airport-api .
+docker run -p 3000:3000 airport-api
+\`\`\`
+
+Or use Docker Compose:
+
+\`\`\`bash
+docker-compose up
+\`\`\`
+
+## Environment Variables
+
+- `PORT` - Server port (default: 3000)
+- `NODE_ENV` - Environment (development/production)
+
+## Sample Data
+
+The API comes with sample data for:
+- Agra Airport (AGR)
+- JFK Airport (JFK)
+- London Heathrow (LHR)
